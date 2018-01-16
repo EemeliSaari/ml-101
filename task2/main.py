@@ -50,29 +50,31 @@ def fix_image(file):
     z_pred = np.dot(H, c)
     Z_pred = np.reshape(z_pred, X.shape)
     plt.imshow(Z_pred, cmap='gray')
+    plt.title("Predicted filter")
     plt.show()
     # Subtract & show
     S = Z - Z_pred
     plt.imshow(S, cmap='gray')
+    plt.title("End result")
     plt.show()
 
 
 def main():
 
-    x = np.load("x.npy")
-    y = np.load("y.npy")
+    x = np.load("resources/x.npy")
+    y = np.load("resources/y.npy")
     a, b = np.polyfit(x,y, 1)
     print("a={}\nb={}\n".format(a,b))
 
-    file_name = "locationData.csv"
+    file_name = "resources/locationData.csv"
     data1 = np.loadtxt(file_name)
     data2 = load_data(file_name)
 
     if np.array_equal(data1, data2):
         print("Datas are equal")
 
-    plot_mat("twoClassData.mat")
-    fix_image("uneven_illumination.jpg")
+    plot_mat("resources/twoClassData.mat")
+    fix_image("resources/uneven_illumination.jpg")
 
 if __name__ == '__main__':
     main()

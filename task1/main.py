@@ -26,7 +26,7 @@ def plot_data_2d(x, y):
 
 def main():
 
-    data = np.loadtxt("locationData.csv")
+    data = np.loadtxt("resources/locationData.csv")
     print("{:d} x {:d}\n".format(np.shape(data)[0],np.shape(data)[1]))
 
     plot_data_2d(data[0:, 0], data[0:, 1])
