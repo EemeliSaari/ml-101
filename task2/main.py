@@ -6,15 +6,21 @@ from scipy.io import loadmat
 
 
 def load_data(file):
-
+    """
+    Custom function to load data from file to np array
+    """
     with open(file, 'r') as f:
         data = [np.fromstring(x.rstrip(), dtype=np.float64, sep=" ") for x in f.readlines()]
     return np.array(data)
 
 
 def plot_mat(file):
-
+    """
+    Simple plotting function to plot data from .mat file
+    """
     mat = loadmat(file)
+    print("keys:", ", ".join(mat.keys()))
+    print("header info:", mat['__header__'])
     X = mat["X"]
     y = mat["y"].ravel()
 
@@ -27,12 +33,16 @@ def plot_mat(file):
 
 
 def fix_image(file):
-
+    """
+    Function to estimate illumination distortion from an image file and fix it.
+    """
+    # Load the image to numpy array using scipy.misc
     img = misc.imread(file)
 
     plt.imshow(img, cmap='gray')
     plt.title('Image shape is {:d}x{:d}'.format(img.shape[1], img.shape[0]))
     plt.show()
+
     # Create the X-Y coordinate pairs in a matrix
     X, Y = np.meshgrid(range(1300), range(1030))
     Z = img
@@ -46,7 +56,7 @@ def fix_image(file):
     # Solve coefficients
     c = np.dot(np.dot(np.linalg.inv(np.dot(H.T, H)), H.T), z)
 
-    # Predict  
+    # Predict the distortion
     z_pred = np.dot(H, c)
     Z_pred = np.reshape(z_pred, X.shape)
     plt.imshow(Z_pred, cmap='gray')
@@ -71,10 +81,11 @@ def main():
     data2 = load_data(file_name)
 
     if np.array_equal(data1, data2):
-        print("Datas are equal")
+        print("Datas are equal\n")
 
     plot_mat("resources/twoClassData.mat")
     fix_image("resources/uneven_illumination.jpg")
 
+    print("\nScript done.")
 if __name__ == '__main__':
     main()
