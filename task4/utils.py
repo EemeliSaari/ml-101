@@ -7,13 +7,13 @@ from skimage.feature import local_binary_pattern
 
 
 def gaussian(x, mu, sigma):
-
-    return ((1/np.sqrt(2*np.pi*np.power(sigma, 2))) * np.exp((((-1/(2*math.pow(sigma, 2))*(np.power(x-mu,2)))))))
+    """Calculates the gaussian normal distribution function for given numpy array x"""
+    return ((1 / np.sqrt(2 * np.pi * np.power(sigma, 2))) * np.exp((((-((np.power((x - mu), 2))/(2 * np.power(sigma, 2))))))))
 
 
 def log_gaussian(x, mu, sigma):
-
-    return np.log(gaussian(x, mu, sigma))
+    """Calculates the logarithmic gaussian normal for given numpy array x"""
+    return (1 / (sigma * x * np.sqrt(2 * np.pi))) * np.exp((-(np.power((np.log(x) - mu), 2) / (2 * np.power(sigma, 2)))))
 
 
 def extract_features(paths):
