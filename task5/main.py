@@ -18,11 +18,10 @@ sys.path.append('..')
 from log_loss_template import test_log_loss
 from task4.utils import extract_features
 
-
-
 style.use('ggplot')
 
 def get_data():
+    """Loads the data for GTSRB"""
     paths = ['resources/class1/', 'resources/class2/']
 
     X, y = extract_features(paths)
@@ -30,13 +29,13 @@ def get_data():
 
 
 def select_params():
-
+    """Tests the classifiers for best params for penalty and C"""
     X_train, X_test, y_train, y_test = get_data()
     
     clf_list = [LogisticRegression(), SVC()]
     clf_name = ['LR', 'SVC']
 
-    c_size = 10000
+    c_size = 100
 
     data = {}
 
@@ -59,6 +58,7 @@ def select_params():
 
         data[name] = meta
     
+    # Plots all the data
     for key in data.keys():
         
         x = data[key]['c']
@@ -83,12 +83,12 @@ def select_params():
     
 
 def test_RFC():
-    
+    """Test different ensembled classifiers"""
     X_train, X_test, y_train, y_test = get_data()
-    
+
     clf_list = [RandomForestClassifier(), AdaBoostClassifier(), ExtraTreesClassifier(), GradientBoostingClassifier()]
     clf_names = ['RFC', 'ABC', 'ETC', 'GBC']
-    
+
     data = {}
     for clf, name in zip(clf_list, clf_names):
 
@@ -109,5 +109,6 @@ if __name__ == '__main__':
     y = pd.read_csv('resources/y.csv').as_matrix()
 
     test_log_loss(X, y)
+
     select_params()
     test_RFC()

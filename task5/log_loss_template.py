@@ -5,7 +5,8 @@ Created on Thu Feb 04 15:59:14 2016
 
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import log_loss
+from sklearn.metrics import accuracy_score
 
 def log_loss(w, X, y):
     """ 
@@ -54,8 +55,8 @@ def test_log_loss(X, y):
         # 5) Apply the gradient descent rule.
         w = w - step_size * grad(w, X, y)
         # 6) Print the current state.
-        print ("Iteration %d: w = %s (log-loss = %.2f)" % \
-              (iteration, str(w), log_loss(w, X, y)))
+        #print ("Iteration %d: w = %s (log-loss = %.2f)" % \
+        #      (iteration, str(w), log_loss(w, X, y)))
 
         # Predict class 1 probability
         y_prob = 1 / (1 + np.exp(-np.dot(X, w)))
@@ -64,7 +65,8 @@ def test_log_loss(X, y):
                 # Transform [0,1] coding to [-1,1] coding
         y_pred = 2*y_pred - 1
 
-        accuracy = np.mean(y_pred == y)
+        accuracy = accuracy_score(y, y_pred)
+        print(accuracy)
         accuracies.append(accuracy)
 
         W.append(w)
