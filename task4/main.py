@@ -3,7 +3,6 @@ import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.misc import imread
 from skimage.feature import local_binary_pattern
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.metrics import accuracy_score
@@ -11,27 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
-from utils import gaussian, log_gaussian
+from utils import gaussian, log_gaussian, extract_features
 
 warnings.filterwarnings('ignore', category=UserWarning)
-
-
-def extract_features(paths):
-    """Extract the local binary pattern from images"""
-    radius = 1
-    n_points = 3 * radius
-
-    data = []
-    labels = []
-    for n, path in enumerate(paths):
-        for file in os.listdir(path):
-            lbp = local_binary_pattern(imread(path + file), n_points, radius)
-            n_bins = int(lbp.max() + 1)
-            hist, _ = np.histogram(lbp, bins = n_bins, range=(0,n_bins))
-            data.append(hist)
-            labels.append(n)
-
-    return np.array(data), np.array(labels)
 
 
 def test_classifiers(X, y):
